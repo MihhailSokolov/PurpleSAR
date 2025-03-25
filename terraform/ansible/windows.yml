@@ -26,3 +26,4 @@
     - windows_setup_privesc
     - finance_db
     - windows_advanced_auditing
+    - windows_copy_emulation

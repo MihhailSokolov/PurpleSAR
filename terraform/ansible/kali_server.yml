@@ -3,3 +3,4 @@
   become: true
   roles:
     - linux_kali_setup_vnc
+    - linux_kali_copy_emulation

@@ -1,0 +1,11 @@
+---
+
+- name: copy emulation.md
+  copy:
+    src: emulation.md
+    dest: /home/kali/emulation.md
+    force: yes
+
+- name: Give everyone persmissions on emulation.md
+  become: true
+  ansible.builtin.shell: chmod 777 /home/kali/emulation.md

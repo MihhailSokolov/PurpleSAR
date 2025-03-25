@@ -1,0 +1,3 @@
+
+- include: windows_copy_emulation.yml
+  when: windows_servers.join_domain == "1"

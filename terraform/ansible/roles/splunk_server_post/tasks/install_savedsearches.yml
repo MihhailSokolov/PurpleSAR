@@ -11,3 +11,16 @@
     group: root
     mode: '0600'
 
+- name: Copy reviewstatuses.conf
+  copy:
+    src: SA-ThreatIntelligence_reviewstatuses.conf
+    dest: /opt/splunk/etc/apps/SA-ThreatIntelligence/local/reviewstatuses.conf
+    force: yes
+
+- name: Change savedsearches.conf ownership, group and permissions
+  file:
+    path: /opt/splunk/etc/apps/SA-ThreatIntelligence/local/reviewstatuses.conf
+    owner: root
+    group: root
+    mode: '0600'
+

@@ -145,8 +145,10 @@ $acl.AddAccessRule($accessrule)
 Set-Acl -AclObject $acl -Path $path
 
 $action = New-ScheduledTaskAction -Execute "powershell" -Argument "-WindowStyle Hidden -File C:\Windows\Temp\set-da-dacl.ps1 $domain $username $userpwd"
-$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).Date -RepetitionInterval (New-TimeSpan -Minutes 5)
+$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).Date -RepetitionInterval (New-TimeSpan -Minutes 1)
 $settings = New-ScheduledTaskSettingsSet
 Register-ScheduledTask -TaskName SetDADacl -TaskPath "\" -Action $action -Trigger $trigger -User $username -Password $userpwd -Settings $settings
 
-Write-Host "Finished - login with one of the users from ServerAdmins group on the server to be compromised"
+Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\NTDS\Parameters -Name AdminSDProtectFrequency -Value 7200
+
+Write-Host "Finished - login with 'billh' user to ITSERVER"

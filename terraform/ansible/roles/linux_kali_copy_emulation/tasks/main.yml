@@ -1,0 +1,3 @@
+---
+- include: copy_emulation.yml
+  when: kali_server.kali_server == "1"
