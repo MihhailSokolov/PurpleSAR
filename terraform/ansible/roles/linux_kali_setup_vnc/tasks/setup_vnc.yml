@@ -35,10 +35,10 @@
     state: latest
     update_cache: yes
 
-- name: install freerdp2-x11
+- name: install xrdp
   become: true
   apt:
-    name:  freerdp2-x11
+    name:  xrdp
     state: latest
     update_cache: yes
 
