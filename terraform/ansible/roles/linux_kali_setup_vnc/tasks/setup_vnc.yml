@@ -84,3 +84,11 @@
   become: true
   ansible.builtin.shell: systemctl start tigervncserver@:1.service
 
+- name: set kali password
+  ansible.builtin.user:
+    name: kali
+    password: "{{ general.attack_range_password|password_hash('sha512') }}"
+
+- name: disable winbind
+  become: true
+  ansible.builtin.shell: sed -i -e 's/ winbind//g' /etc/nsswitch.conf
