@@ -16,9 +16,9 @@ if (-not $UserID){
 # "Write-Host 'Updating...'" | Out-File C:\Update.ps1
 # icacls C:\Update.ps1 /grant Everyone:F
 
-# if ((Get-LocalGroupMember Administrators).Name -notcontains 'ATTACKRANGE\ServerAdmins') {
-#     net localgroup administrators ATTACKRANGE\ServerAdmins /add
-# }
+if ((Get-LocalGroupMember Administrators).Name -notcontains 'ATTACKRANGE\ServerAdmins') {
+    net localgroup administrators ATTACKRANGE\ServerAdmins /add
+}
 
 # $task = Get-ScheduledTask -TaskName "UpdateTask" -ErrorAction SilentlyContinue
 # if (-not $task) {
