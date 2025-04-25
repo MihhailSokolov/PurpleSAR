@@ -9,3 +9,14 @@
 - name: Give everyone persmissions on emulation.md
   become: true
   ansible.builtin.shell: chmod 777 /home/kali/emulation.md
+
+- name: install pandoc
+  become: true
+  apt:
+    name:  pandoc
+    state: latest
+    update_cache: yes
+
+- name: convert markdown emulation to html and place it as Mozilla homepage
+  become: true
+  ansible.builtin.shell: pandoc -f markdown /home/kali/emulation.md > /usr/share/kali-defaults/web/homepage.html
