@@ -1,5 +1,9 @@
 ---
 
+- name: Add new Kali GPG key
+  become: true
+  ansible.builtin.shell: wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg && apt update
+
 - name: Configure sshd
   lineinfile:
     path: "/etc/ssh/sshd_config"
