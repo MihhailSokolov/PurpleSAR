@@ -2,7 +2,7 @@
 
 - name: Add new Kali GPG key
   become: true
-  ansible.builtin.shell: wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg
+  ansible.builtin.shell: wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg && apt update
 
 - name: Update apt cache
   apt:
