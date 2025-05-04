@@ -20,3 +20,13 @@
 - name: convert markdown emulation to html and place it as Mozilla homepage
   become: true
   ansible.builtin.shell: pandoc -f markdown /home/kali/emulation.md > /usr/share/kali-defaults/web/homepage.html
+
+- name: copy StartHere.html
+  copy:
+    src: StartHere.html
+    dest: /home/kali/Desktop/StartHere.html
+    force: yes
+
+- name: Set perms on StartHere.html
+  become: true
+  ansible.builtin.shell: chmod 777 /home/kali/Desktop/StartHere.html
