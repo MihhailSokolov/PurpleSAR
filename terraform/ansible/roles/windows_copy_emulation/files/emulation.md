@@ -204,12 +204,14 @@ Before starting Bloodhound, make sure that Bloodhound is installed and Neo4j is 
 
 ```bash
 [KALI:bash] sudo apt install -y bloodhound
-[KALI:bash] sudo neo4j start
+[KALI:bash] sudo bloodhound-setup
 ```
 
 Now you will need to go to `http://localhost:7474` in your browser, login as `neo4j` user with `neo4j` password and set the new password, for example good old `P@ssw0rd`.
 
-Let us now open Bloodhound (use the newly-set `neo4j` credentials to connect to the database) and import the ZIP file into it.
+Now put the same password in `/etc/bhapi/bhapi.json` and run `sudo bloodhound`.
+
+Bloodhound should be running now, so let's open `http://localhost:8080`, login with user `admin` and password `admin` and import the ZIP file into it.
 
 We mark our AD user as compromised and then we find a path from the compromised principal to Domain Admins
 
