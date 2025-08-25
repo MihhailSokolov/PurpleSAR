@@ -1,0 +1,26 @@
+---
+- name: install bloodhound
+  become: true
+  apt:
+    name:  bloodhound
+    state: latest
+    update_cache: yes
+
+- name: install java 11
+  become: true
+  apt:
+    name:  openjdk-11-jdk
+    state: latest
+    update_cache: yes
+
+- name: setup bloodhound
+  become: true
+  ansible.builtin.shell: bloodhound-setup
+
+- name: set neo4j password
+  become: true
+  ansible.builtin.shell: export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && /usr/share/neo4j/bin/neo4j-admin set-initial-password '{{ general.attack_range_password }}' && neo4j restart
+
+- name: setup bloodhound
+  become: true
+  ansible.builtin.shell: sed -i -e 's/"secret": "neo4j"/"secret": "{{ general.attack_range_password }}"/g' /etc/bhapi/bhapi.json
