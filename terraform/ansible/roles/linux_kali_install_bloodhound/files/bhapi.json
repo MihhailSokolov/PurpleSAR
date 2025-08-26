@@ -1,0 +1,19 @@
+{
+	"database": {
+		"addr": "localhost:5432",
+		"username": "_bloodhound",
+		"secret": "bloodhound",
+		"database": "bloodhound"
+	},
+	"neo4j": {
+		"addr": "localhost:7687",
+		"username": "neo4j",
+		"secret": "BHCEPASSWORD"
+	},
+	"default_admin": {
+		"principal_name": "admin",
+		"password": "admin",
+		"first_name": "Bloodhound",
+		"last_name": "Kali"
+	}
+}

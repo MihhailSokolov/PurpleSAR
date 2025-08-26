@@ -21,10 +21,16 @@
   become: true
   ansible.builtin.shell: export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && /usr/share/neo4j/bin/neo4j-admin set-initial-password '{{ general.attack_range_password }}' && neo4j restart
 
-- name: setup bloodhound 1
+- name: delete default bloodhound config
   become: true
-  ansible.builtin.shell: sed -i -e "s/\"secret\": \"neo4j\"/\"secret\": \"BHCEPASSWORD\"/g" /etc/bhapi/bhapi.json
+  ansible.builtin.shell: rm /etc/bhapi/bhapi.json
 
-- name: setup bloodhound 2
+- name: copy bhapi config
+  copy:
+    src: bhapi.json
+    dest: /etc/bhapi/bhapi.json
+    force: yes
+
+- name: set bhapi password
   become: true
   ansible.builtin.shell: sed -i -e "s/BHCEPASSWORD/{{ general.attack_range_password }}/g" /etc/bhapi/bhapi.json
