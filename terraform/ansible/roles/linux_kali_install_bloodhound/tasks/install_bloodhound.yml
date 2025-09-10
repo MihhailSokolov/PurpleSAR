@@ -1,27 +1,7 @@
 ---
-- name: Add Docker GPG apt Key
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-
-- name: Add Docker Repository
-  apt_repository:
-    repo: deb https://download.docker.com/linux/debian focal stable
-    state: present
-
-- name: install Docker
+- name: Install Docker
   become: true
-  apt:
-    name:  docker
-    state: latest
-    update_cache: yes
-
-- name: install Docker
-  become: true
-  apt:
-    name:  docker-ce
-    state: latest
-    update_cache: yes
+  ansible.builtin.shell: apt install curl && curl -L get.docker.com | bash
 
 - name: Download Bloodhound CLI
   become: true
