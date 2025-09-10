@@ -1,13 +1,13 @@
 ---
 - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
 
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/debian focal stable
-        state: present
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian focal stable
+    state: present
 
 - name: install Docker
   become: true
