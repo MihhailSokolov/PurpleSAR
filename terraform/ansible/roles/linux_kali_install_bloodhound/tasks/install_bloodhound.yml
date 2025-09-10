@@ -1,36 +1,20 @@
 ---
-- name: install bloodhound
+- name: Download Bloodhound CLI
   become: true
-  apt:
-    name:  bloodhound
-    state: latest
-    update_cache: yes
+  ansible.builtin.shell: wget https://github.com/SpecterOps/bloodhound-cli/releases/latest/download/bloodhound-cli-linux-amd64.tar.gz
 
-- name: install java 11
+- name: Untar Bloodhound CLI
   become: true
-  apt:
-    name:  openjdk-11-jdk
-    state: latest
-    update_cache: yes
+  ansible.builtin.shell: tar -xvzf bloodhound-cli-linux-amd64.tar.gz
 
-- name: setup bloodhound
+- name: Set default Bloodhound admin password
   become: true
-  ansible.builtin.shell: bloodhound-setup
-
-- name: set neo4j password
+  ansible.builtin.shell: ./bloodhound-cli config set default_admin.password "{{ general.attack_range_password }}"
+  
+- name: Set default Bloodhound password
   become: true
-  ansible.builtin.shell: export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && /usr/share/neo4j/bin/neo4j-admin set-initial-password '{{ general.attack_range_password }}' && neo4j restart
+  ansible.builtin.shell: ./bloodhound-cli config set default_password "{{ general.attack_range_password }}"
 
-- name: delete default bloodhound config
+- name: Install Bloodhound
   become: true
-  ansible.builtin.shell: rm /etc/bhapi/bhapi.json
-
-- name: copy bhapi config
-  copy:
-    src: bhapi.json
-    dest: /etc/bhapi/bhapi.json
-    force: yes
-
-- name: set bhapi password
-  become: true
-  ansible.builtin.shell: sed -i -e "s/BHCEPASSWORD/{{ general.attack_range_password }}/g" /etc/bhapi/bhapi.json
+  ansible.builtin.shell: ./bloodhound-cli install
