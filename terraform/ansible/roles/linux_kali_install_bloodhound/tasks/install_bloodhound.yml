@@ -1,7 +1,7 @@
 ---
 - name: Install Docker
   become: true
-  ansible.builtin.shell: apt install curl && curl -L get.docker.com | bash
+  ansible.builtin.shell: apt update && apt install -y curl && curl -L get.docker.com | bash
 
 - name: Download Bloodhound CLI
   become: true
