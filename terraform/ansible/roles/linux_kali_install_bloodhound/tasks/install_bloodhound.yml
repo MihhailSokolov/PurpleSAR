@@ -1,4 +1,7 @@
 ---
+- name: Install Docker
+  become: true
+  ansible.builtin.shell: apt update && apt install -y ca-certificates curl
 
 - name: Install Docker
   become: true
@@ -6,7 +9,7 @@
 
 - name: Add Docker repository
   become: true
-  ansible.builtin.shell: apt update && apt install -y curl ca-certificates && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
 - name: Install Docker
   become: true
