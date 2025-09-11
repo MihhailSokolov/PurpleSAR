@@ -1,4 +1,3 @@
-
 module "networkModule" {
   source = "./modules/network"
   general = var.general
@@ -53,12 +52,11 @@ module "linux-server" {
   splunk_server = var.splunk_server
 }
 
-# kali linux image was removed from Azure marketplace
-# module "kali-server" {
-#   source = "./modules/kali-server"
-#   rg_name = module.networkModule.rg_name
-#   subnet_id = module.networkModule.subnet_id
-#   azure = var.azure
-#   general = var.general
-#   kali_server = var.kali_server
-# }
+module "kali-server" {
+  source = "./modules/kali-server"
+  rg_name = module.networkModule.rg_name
+  subnet_id = module.networkModule.subnet_id
+  azure = var.azure
+  general = var.general
+  kali_server = var.kali_server
+}

@@ -21,6 +21,12 @@ resource "azurerm_network_interface" "kali-nic" {
   }
 }
 
+resource "azurerm_marketplace_agreement" "kali_terms" {
+  publisher = var.kali_image.kali_publisher
+  offer     = var.kali_image.kali_offer
+  plan      = var.kali_image.kali_sku
+}
+
 resource "azurerm_virtual_machine" "kali" {
   count       = var.kali_server.kali_server == "1" ? 1 : 0
   name = "ar-kali-${var.general.key_name}"
@@ -39,15 +45,15 @@ resource "azurerm_virtual_machine" "kali" {
   }
 
   plan {
-    publisher = "kali-linux"
-    product   = "kali"
-    name      = "kali"
+    publisher = var.kali_image.kali_publisher
+    product   = var.kali_image.kali_offer
+    name      = var.kali_image.kali_sku
   }
 
   storage_image_reference {
-    publisher = "kali-linux"
-    offer     = "kali"
-    sku       = "kali"
+    publisher = var.kali_image.kali_publisher
+    offer     = var.kali_image.kali_offer
+    sku       = var.kali_image.kali_sku
     version   = "latest"
   }
 
@@ -74,5 +80,23 @@ resource "azurerm_virtual_machine" "kali" {
       host        = azurerm_public_ip.kali-publicip[count.index].ip_address
       private_key = file(var.azure.private_key_path)
     }
+  }
+
+  provisioner "local-exec" {
+  working_dir = "../ansible"
+  command = <<-EOT
+    cat <<EOF > vars/kali_vars.json
+    {
+      "general": ${jsonencode(var.general)},
+      "aws": ${jsonencode(var.azure)},
+      "kali_server": ${jsonencode(var.kali_server)}
+    }
+    EOF
+  EOT
+  }
+
+  provisioner "local-exec" {
+    working_dir = "../ansible"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u kali --private-key '${var.azure.private_key_path}' -i '${azurerm_public_ip.kali-publicip[0].ip_address},' kali_server.yml -e @vars/kali_vars.json"
   }
 }

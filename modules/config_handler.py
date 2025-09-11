@@ -102,12 +102,12 @@ class ConfigHandler:
             print("ERROR: Nginx Server not supported in Azure.")
             sys.exit(1)
 
-        if (
-            config["kali_server"]["kali_server"] == "1"
-            and config["general"]["cloud_provider"] == "azure"
-        ):
-            print("ERROR: Kali Server not supported in Azure.")
-            sys.exit(1)
+        # if (
+        #     config["kali_server"]["kali_server"] == "1"
+        #     and config["general"]["cloud_provider"] == "azure"
+        # ):
+            # print("ERROR: Kali Server not supported in Azure.")
+            # sys.exit(1)
 
         if (
             config["zeek_server"]["zeek_server"] == "1"
