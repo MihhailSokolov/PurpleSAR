@@ -60,3 +60,12 @@ module "kali-server" {
   general = var.general
   kali_server = var.kali_server
 }
+
+module "sentinel" {
+  source = "./modules/sentinel"
+  rg_name = module.networkModule.rg_name
+  subnet_id = module.networkModule.subnet_id
+  general = var.general
+  azure = var.azure
+  windows_server_ids = module.windows-server.vm_ids
+}
