@@ -159,7 +159,7 @@ class AzureController(AttackRangeController):
                         "\nAccess Guacamole via:\n\tWeb > http://"
                         + instance["public_ip"]
                         + ":8080/guacamole"
-                        + "\n\tusername: Admin \n\tpassword: "
+                        + "\n\tusername: admin \n\tpassword: "
                         + self.config["general"]["attack_range_password"]
                     )
                     if self.config["splunk_server"]["install_es"] == "1":
@@ -175,7 +175,7 @@ class AzureController(AttackRangeController):
                         )
                     else:
                         messages.append(
-                            "\n\nAccess Splunk via:\n\tWeb > http://"
+                            "\n\nAccess Splunk via:\n\tWeb > https://"
                             + instance["public_ip"]
                             + ":8000\n\tSSH > ssh -i"
                             + self.config["azure"]["private_key_path"]
