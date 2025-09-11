@@ -7,6 +7,7 @@
 
 - name: reboot | Rebooting Server
   win_reboot:
+    post_reboot_delay: 60
 
 - name: Copy join domain script to host
   win_copy:
@@ -25,3 +26,4 @@
 
 - name: reboot | Rebooting Server
   win_reboot:
+    post_reboot_delay: 60
