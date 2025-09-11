@@ -1,3 +1,5 @@
 ---
 - include: finance_db.yml
-  when: windows_servers.join_domain == "1"
+  when: windows_servers.join_domain == "1" and general.cloud_provider == "aws"
+- include: finance_db_azure.yml
+  when: windows_servers.join_domain == "1" and general.cloud_provider == "azure"

@@ -1,0 +1,21 @@
+---
+
+- name: Copy populate script to host
+  win_copy:
+    src: "populate-ad-azure.ps1"
+    dest: 'C:\Windows\Temp\populate.ps1'
+
+- name: Copy set-da-dacl script to host
+  win_copy:
+    src: "set-da-dacl.ps1"
+    dest: 'C:\Windows\Temp\set-da-dacl.ps1'
+
+- name: Run populate script
+  win_shell: "C:\\Windows\\Temp\\populate.ps1 attackrange.local 20 {{ ansible_user }}@attackrange.local {{ general.attack_range_password }}"
+  register: win_shell_output
+  retries: 1
+  delay: 600
+  until: win_shell_output.stderr == ""
+
+- debug:
+    var: win_shell_output

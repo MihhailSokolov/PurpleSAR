@@ -11,7 +11,6 @@
     - "git"
     - "notepadplusplus"
     - "7zip"
-    - "adobereader"
     - "python"
 - include: advanced_logging.yml
   when: windows_servers.advanced_logging == "1"

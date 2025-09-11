@@ -1,0 +1,23 @@
+---
+
+- name: Copy finance db to host (AZURE)
+  win_copy:
+    src: "finance.db"
+    dest: 'C:\Users\AzureAdmin\Documents\finance.db'
+  retries: 10
+  delay: 30
+
+- name: Copy findb_host_check script to host (AZURE)
+  win_copy:
+    src: "findb_host_check_azure.ps1"
+    dest: 'C:\Windows\Temp\findb_host_check.ps1'
+
+- name: Run findb_host_check (AZURE)
+  win_shell: "C:\\Windows\\Temp\\findb_host_check.ps1"
+  register: win_shell_output
+  retries: 5
+  delay: 300
+  until: win_shell_output.stderr == ""
+
+- debug:
+    var: win_shell_output

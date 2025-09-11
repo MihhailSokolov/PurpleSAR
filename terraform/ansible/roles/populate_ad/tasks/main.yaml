@@ -1,3 +1,5 @@
 
 - include: populate.yml
-  when: windows_servers.create_domain == "1"
+  when: windows_servers.create_domain == "1" and general.cloud_provider == "aws"
+- include: populate_azure.yml
+  when: windows_servers.create_domain == "1" and general.cloud_provider == "azure"
