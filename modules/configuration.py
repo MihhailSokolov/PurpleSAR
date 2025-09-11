@@ -209,7 +209,16 @@ starting configuration for AT-ST mech walker
             # get api_key
             "type": "input",
             "message": "enter azure subscription id",
-            "name": "azure_subscription_id",
+            "name": "subscription_id",
+            "when": lambda answers: answers["provider"] == "azure",
+        },
+        {
+            # get chosen SIEM
+            "type": "select",
+            "message": "select SIEM you would like to use",
+            "name": "siem",
+            "choices": ["splunk", "sentinel"],
+            "default": "splunk",
             "when": lambda answers: answers["provider"] == "azure",
         },
         {
@@ -238,8 +247,11 @@ starting configuration for AT-ST mech walker
     configuration[answers["provider"]] = dict()
     configuration["general"]["attack_range_password"] = answers["attack_range_password"]
 
-    if "azure_subscription_id" in answers:
-        configuration["azure"]["subscription_id"] = answers["azure_subscription_id"]
+    if "subscription_id" in answers:
+        configuration["azure"]["subscription_id"] = answers["subscription_id"]
+
+    if "siem" in answers:
+        configuration["azure"]["siem"] = answers["siem"]
 
     print("> configuring attack_range settings")
 
@@ -641,9 +653,12 @@ starting configuration for AT-ST mech walker
     # if "phantom_installer" in answers:
     #     configuration["phantom_server"]["phantom_app"] = answers["phantom_installer"]
 
-    configuration["splunk_server"] = dict()
-    configuration["splunk_server"]["install_es"] = "1"
-    configuration["splunk_server"]["splunk_es_app"] = "splunk-enterprise-security_732.spl"
+    if configuration["general"]["cloud_provider"] == "aws" or (configuration["general"]["cloud_provider"] == "azure" and configuration["azure"]["siem"] == "splunk"):
+        configuration["splunk_server"] = dict()
+        configuration["splunk_server"]["install_es"] = "1"
+        configuration["splunk_server"]["splunk_es_app"] = "splunk-enterprise-security_732.spl"
+    else:
+        configuration.pop('splunk_server', None)
 
     configuration["windows_servers"] = list()
     configuration["windows_servers"].append(
