@@ -78,6 +78,10 @@ resource "azurerm_virtual_machine" "windows" {
     managed_disk_type = "Standard_LRS"
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   provisioner "remote-exec" {
     inline = ["echo booted"]
 
@@ -105,6 +109,7 @@ resource "azurerm_virtual_machine" "windows" {
         "splunk_server": ${jsonencode(var.splunk_server)},
         "simulation": ${jsonencode(var.simulation)},
         "windows_servers": ${jsonencode(var.windows_servers[count.index])},
+        "azure": ${jsonencode(var.azure)},
       }
       EOF
     EOT

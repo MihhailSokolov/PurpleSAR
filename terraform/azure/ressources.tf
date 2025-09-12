@@ -68,4 +68,5 @@ module "sentinel" {
   general = var.general
   azure = var.azure
   windows_server_ids = module.windows-server.vm_ids
+  managed_identity_ids = module.windows-server.managed_identity_ids
 }
