@@ -1,6 +1,6 @@
 
 resource "azurerm_public_ip" "splunk-publicip" {
-  count               = var.splunk_server.byo_splunk == "0" ? 1 : 0
+  count               = var.splunk_server.byo_splunk == "0" && var.azure.siem == "splunk" ? 1 : 0
   name                = "ar-splunk-ip-${var.general.key_name}-${var.general.attack_range_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "splunk-publicip" {
 }
 
 resource "azurerm_network_interface" "splunk-nic" {
-  count               = var.splunk_server.byo_splunk == "0" ? 1 : 0
+  count               = var.splunk_server.byo_splunk == "0" && var.azure.siem == "splunk" ? 1 : 0
   name                = "ar-splunk-nic-${var.general.key_name}-${var.general.attack_range_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name
@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "splunk-nic" {
 }
 
 resource "azurerm_virtual_machine" "splunk" {
-  count = var.splunk_server.byo_splunk == "0" ? 1 : 0
+  count = var.splunk_server.byo_splunk == "0" && var.azure.siem == "splunk" ? 1 : 0
   name = "ar-splunk-${var.general.key_name}-${var.general.attack_range_name}"
   location = var.azure.location
   resource_group_name  = var.rg_name

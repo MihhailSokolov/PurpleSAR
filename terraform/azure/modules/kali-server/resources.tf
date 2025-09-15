@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "kali-publicip" {
-  count       = var.kali_server.kali_server == "1" ? 1 : 0
+  count               = var.kali_server.kali_server == "1" ? 1 : 0
   name                = "ar-kali-ip-${var.general.key_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name
@@ -7,7 +7,7 @@ resource "azurerm_public_ip" "kali-publicip" {
 }
 
 resource "azurerm_network_interface" "kali-nic" {
-  count       = var.kali_server.kali_server == "1" ? 1 : 0
+  count               = var.kali_server.kali_server == "1" ? 1 : 0
   name                = "ar-kali-nic-${var.general.key_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name

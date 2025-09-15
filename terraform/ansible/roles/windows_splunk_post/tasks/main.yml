@@ -1,12 +1,15 @@
 ---
 
 - name: Change Splunk password
+  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
   win_command: '"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" edit user admin -password {{ general.attack_range_password }} -auth admin:Pl3ase-k1Ll-me:p'
   retries: 10
   delay: 30
 
 - name: Change Hostname
+  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
   win_command: '"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" set default-hostname {{ windows_servers.hostname }} -auth admin:{{ general.attack_range_password }}'
 
 - name: Restart
+  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
   win_command: '"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" restart'
