@@ -8,11 +8,11 @@
 
 - name: Download Guacamole Client
   get_url:
-    url: https://archive.apache.org/dist/guacamole/1.5.2/binary/guacamole-1.5.2.war
-    dest: /tmp/guacamole-1.5.2.war
+    url: https://apache.org/dyn/closer.lua/guacamole/1.6.0/binary/guacamole-1.6.0.war?action=download
+    dest: /tmp/guacamole-1.6.0.war
 
 - name: Move .war
-  copy: remote_src=True src=/tmp/guacamole-1.5.2.war dest=/etc/guacamole/guacamole.war
+  copy: remote_src=True src=/tmp/guacamole-1.6.0.war dest=/etc/guacamole/guacamole.war
 
 - name: link guacamole.war
   shell:
