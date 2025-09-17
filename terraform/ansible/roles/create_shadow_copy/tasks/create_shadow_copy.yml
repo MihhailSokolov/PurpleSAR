@@ -1,0 +1,4 @@
+---
+- name: Create shadow copy for C: volume
+  become: true
+  ansible.builtin.shell: vssadmin create shadow /for=C:
