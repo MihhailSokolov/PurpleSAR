@@ -1,22 +1,14 @@
 
 - include: install_splunk_uf.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 #- include: create_deploymentclient.yml
 - include: configure_outputs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 - include: collect_powershell_logs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 - include: collect_attack_simulation_logs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 - include: collect_sysmon_logs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 - include: collect_windows_event_logs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 - include: collect_aurora_agent_logs.yml
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
 
 - name: Restart splunk
-  when: general.cloud_provider == "aws" or (azure is defined and azure.siem == "splunk")
   win_command: splunk.exe restart
   args:
     chdir: C:\Program Files\SplunkUniversalForwarder\bin\
