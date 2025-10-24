@@ -1,0 +1,12 @@
+---
+- name: Copy createShadowCopy script to host
+  win_copy:
+    src: "createShadowCopy.ps1"
+    dest: 'C:\Windows\Temp\createShadowCopy.ps1'
+
+- name: Run createShadowCopy
+  win_shell: "C:\\Windows\\Temp\\createShadowCopy.ps1"
+  register: win_shell_output
+  retries: 5
+  delay: 300
+  until: win_shell_output.stderr == ""

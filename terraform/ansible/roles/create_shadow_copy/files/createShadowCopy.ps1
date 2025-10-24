@@ -1,0 +1,1 @@
+vssadmin create shadow /for=C:
