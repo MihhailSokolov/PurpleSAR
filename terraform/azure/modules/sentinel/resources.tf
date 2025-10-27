@@ -63,7 +63,11 @@ resource "azurerm_monitor_data_collection_rule" "sentinel-dcr" {
       windows_event_log {
         name           = "eventLogsDataSource"
         streams        = ["Microsoft-Event"]
-        x_path_queries = ["Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0)]]", "Security!*[System[(band(Keywords,13510798882111488))]]", "System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0)]]"]
+        x_path_queries = ["Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0)]]", 
+                          "Security!*[System[(band(Keywords,13510798882111488))]]", 
+                          "System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0)]]",
+                          "Microsoft-Windows-Sysmon/Operational!*",
+                          "Microsoft-Windows-Powershell/Operational!*"]
       }
     }
 
