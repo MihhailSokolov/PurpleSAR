@@ -96,7 +96,7 @@ locals {
 
 resource "azurerm_sentinel_alert_rule_scheduled" "network_connection_certutil" {
   name = "Uncommon Network Connection Initiated By Certutil.EXE"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Uncommon Network Connection Initiated By Certutil.EXE"
   description = "net_connection_win_certutil_initiated_connection.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/network_connection/net_connection_win_certutil_initiated_connection.yml#L2%5C"
   severity = "High"
@@ -115,7 +115,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "real_time_monitoring_defender" {
   name = "Real-Time Protection in Defender disabled"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Real-Time Protection in Defender disabled"
   description = "win_defender_real_time_protection_disabled.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/4f4ef7a8cc077b2b54c71c598db50fe8b1f14d55/rules/windows/builtin/windefend/win_defender_real_time_protection_disabled.yml#L4"
   severity = "Medium"
@@ -132,7 +132,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "rclone_process_execution" {
   name = "RClone Process Execution"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "RClone Process Execution"
   description = "proc_creation_win_pua_rclone_execution.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/d804e9cba10fa2e3bdabeca0cc330158c58de016/rules/windows/process_creation/proc_creation_win_pua_rclone_execution.yml#L4"
   severity = "Medium"
@@ -149,7 +149,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "download_via_certutil" {
   name = "Suspicious Download Via Certutil.EXE"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Suspicious Download Via Certutil.EXE"
   description = "Detects the execution of certutil with certain flags that allow the utility to download files.\n\nproc_creation_win_certutil_download.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/process_creation/proc_creation_win_certutil_download.yml"
   severity = "Medium"
@@ -180,7 +180,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "domain_admin_pw_reset" {
   name = "Domain Admin Password Reset"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Domain Admin Password Reset"
   description = "win-ad-bruteforce via password reset.yaml\n\nhttps://github.com/mdecrevoisier/SIGMA-detection-rules/blob/2aca9946d75306e91f490b76c95abcae177dd71a/windows-active_directory/win-ad-bruteforce%20via%20password%20reset.yaml#L19."
   severity = "High"
@@ -203,7 +203,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "ad_user_enumeration" {
   name = "Potential AD User Enumeration From Non-Machine Account"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Potential AD User Enumeration From Non-Machine Account"
   description = "Detects read access to a domain user from a non-machine account\n\nwin_security_ad_user_enumeration.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/builtin/security/win_security_ad_user_enumeration.yml"
   severity = "Medium"
@@ -243,7 +243,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "credential_dumping_werfault" {
   name = "Credential Dumping Attempt Via WerFault"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Credential Dumping Attempt Via WerFault"
   description = "proc_access_win_lsass_werfault.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/a77d3bae4bbe6eae5b9fae7b598bf9c7734424bc/rules/windows/process_access/proc_access_win_lsass_werfault.yml#L4"
   severity = "High"
@@ -271,7 +271,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_lsass_access" {
   name = "Mimikatz Detection LSASS Access"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Mimikatz Detection LSASS Access"
   description = "sysmon_mimikatz_detection_lsass.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/a77d3bae4bbe6eae5b9fae7b598bf9c7734424bc/deprecated/windows/sysmon_mimikatz_detection_lsass.yml#L4"
   severity = "High"
@@ -304,7 +304,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "ad_privileged_user_group_recon" {
   name = "AD Privileged Users or Groups Reconnaissance"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "AD Privileged Users or Groups Reconnaissance"
   description = "win_security_account_discovery.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/a77d3bae4bbe6eae5b9fae7b598bf9c7734424bc/rules/windows/builtin/security/win_security_account_discovery.yml#L4"
   severity = "High"
@@ -346,7 +346,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "password_dumping_activity_lsass" {
   name = "Password Dumper Activity on LSASS"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Password Dumper Activity on LSASS"
   description = "Detects process handle on LSASS process with certain access mask and object type SAM_DOMAIN\n\nwin_security_susp_lsass_dump.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/builtin/security/win_security_susp_lsass_dump.yml"
   severity = "Medium"
@@ -363,7 +363,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_keywords" {
   name = "Mimikatz Use (Keywords)"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Mimikatz Use (Keywords)"
   description = "win_alert_mimikatz_keywords.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/a77d3bae4bbe6eae5b9fae7b598bf9c7734424bc/rules/windows/builtin/win_alert_mimikatz_keywords.yml#L4"
   severity = "Medium"
@@ -405,7 +405,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "generic_hacktool_process_access" {
   name = "HackTool - Generic Process Access"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "HackTool - Generic Process Access"
   description = "proc_access_win_hktl_generic_access.yml\nhttps://github.com/SigmaHQ/sigma/blob/a77d3bae4bbe6eae5b9fae7b598bf9c7734424bc/rules/windows/process_access/proc_access_win_hktl_generic_access.yml#L4"
   severity = "High"
@@ -446,7 +446,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_kirbi_file_creation" {
   name = "HackTool - Mimikatz Kirbi File Creation"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "HackTool - Mimikatz Kirbi File Creation"
   description = "file_event_win_hktl_mimikatz_files.yml\nhttps://github.com/SigmaHQ/sigma/blob/4f4ef7a8cc077b2b54c71c598db50fe8b1f14d55/rules/windows/file/file_event/file_event_win_hktl_mimikatz_files.yml#L4"
   severity = "High"
@@ -461,7 +461,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "tamper_protection_defender" {
   name = "Microsoft Defender Tamper Protection Trigger"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Microsoft Defender Tamper Protection Trigger"
   description = "win_defender_tamper_protection_trigger.yml\nhttps://github.com/SigmaHQ/sigma/blob/4f4ef7a8cc077b2b54c71c598db50fe8b1f14d55/rules/windows/builtin/windefend/win_defender_tamper_protection_trigger.yml#L4"
   severity = "High"
@@ -478,7 +478,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "bloodhound_collection_files" {
   name = "BloodHound Collection Files"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "BloodHound Collection Files"
   description = "file_event_win_bloodhound_collection.yml\nhttps://github.com/SigmaHQ/sigma/blob/1f1f31e99c3c1dd2ac21f471ca7ec67a923c3e87/rules/windows/file/file_event/file_event_win_bloodhound_collection.yml#L4"
   severity = "High"
@@ -499,7 +499,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "net_exe_group_account_recon" {
   name = "Suspicious Group And Account Reconnaissance Activity Using Net.EXE"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Suspicious Group And Account Reconnaissance Activity Using Net.EXE"
   description = "proc_creation_win_net_groups_and_accounts_recon.yml\nhttps://github.com/SigmaHQ/sigma/blob/1f1f31e99c3c1dd2ac21f471ca7ec67a923c3e87/rules/windows/process_creation/proc_creation_win_net_groups_and_accounts_recon.yml#L17"
   severity = "Low"
@@ -548,7 +548,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "shadow_copy_deletion" {
   name = "Shadow Copies Deletion"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Shadow Copies Deletion"
   description = "proc_creation_win_susp_shadow_copies_deletion.yml\nhttps://github.com/SigmaHQ/sigma/blob/d804e9cba10fa2e3bdabeca0cc330158c58de016/rules/windows/process_creation/proc_creation_win_susp_shadow_copies_deletion.yml#L9"
   severity = "High"
@@ -587,7 +587,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "bloodhound_sharphound_execution" {
   name = "HackTool - Bloodhound/Sharphound Execution"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "HackTool - Bloodhound/Sharphound Execution"
   description = "Detects command line parameters used by Bloodhound and Sharphound hack tools\n\nproc_creation_win_hktl_bloodhound_sharphound.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/process_creation/proc_creation_win_hktl_bloodhound_sharphound.yml"
   severity = "High"
@@ -639,39 +639,7 @@ QUERY
 
 resource "azurerm_sentinel_alert_rule_scheduled" "file_sharing_download_certutil" {
   name = "Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
-  display_name = "Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE"
-  description = "Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.\n\nproc_creation_win_certutil_download_file_sharing_domains.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/process_creation/proc_creation_win_certutil_download_file_sharing_domains.yml"
-  severity = "High"
-  query = <<QUERY
-// Suspicious File Downloaded From File-Sharing Website Via certutil.exe (ASIM)
-_Im_ProcessCreate()
-| where EventType == \"ProcessCreated\" 
-| where Process endswith @\"\\certutil.exe\" // Match certutil by image path or original filename
-   or TargetProcessFileOriginalName =~ \"CertUtil.exe\" 
-| where CommandLine has_any (\"urlcache \", \"verifyctl \") // Flags that enable downloads (as in the Sigma rule)
-| where CommandLine has_any (\".githubusercontent.com\", \"anonfiles.com\", \"cdn.discordapp.com\", \"ddns.net\", \"dl.dropboxusercontent.com\", \"ghostbin.co\", \"glitch.me\", \"gofile.io\", \"hastebin.com\", \"mediafire.com\", \"mega.nz\", \"onrender.com\", \"pages.dev\", \"paste.ee\", \"pastebin.com\", \"pastebin.pl\", \"pastetext.net\", \"privatlab.com\", \"privatlab.net\", \"send.exploit.in\", \"sendspace.com\", \"storage.googleapis.com\", \"storjshare.io\", \"supabase.co\", \"temp.sh\", \"transfer.sh\", \"trycloudflare.com\", \"ufile.io\", \"w3spaces.com\", \"workers.dev\") // File-sharing / hosting domains (Sigma list)
-| project // Output useful fields
-    EventStartTime,
-    DvcHostname,
-    ActorUsername,
-    Process,
-    TargetProcessFileOriginalName,
-    CommandLine,
-    ParentProcessName,
-    TargetProcessId
-| order by EventStartTime desc
-
-QUERY
-  tactics = ["DefenseEvasion"]
-  techniques = ["T1027"]
-  query_frequency = local.queryFrequency
-  query_period = local.queryPeriod
-}
-
-resource "azurerm_sentinel_alert_rule_scheduled" "file_sharing_download_certutil" {
-  name = "Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.sentinel-law.id
   display_name = "Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE"
   description = "Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.\n\nproc_creation_win_certutil_download_file_sharing_domains.yml\n\nhttps://github.com/SigmaHQ/sigma/blob/6fd57da13139643c6fe3e4a23276ca6ae9a6eec7/rules/windows/process_creation/proc_creation_win_certutil_download_file_sharing_domains.yml"
   severity = "High"
