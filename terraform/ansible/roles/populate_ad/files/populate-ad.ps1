@@ -21,8 +21,8 @@ New-ADOrganizationalUnit -Name "Servers" -Path "OU=Systems,$rootPath" -Credentia
 Start-Sleep -Seconds 5
 
 Write-Host "Creating Users and Groups..."
-New-ADGroup -Name "ServerAdmins" -SamAccountName ServerAdmins -GroupCategory Security -GroupScope Global -DisplayName "ServerAdmins" -Path "OU=Groups,$rootPath" -ManagedBy (Get-ADUser Administrator) -Credential $credential
-New-ADGroup -Name "ITSupport" -SamAccountName ITSupport -GroupCategory Security -GroupScope Global -DisplayName "ITSupport" -Path "OU=Groups,$rootPath" -ManagedBy (Get-ADUser Administrator) -Credential $credential
+New-ADGroup -Name "ServerAdmins" -SamAccountName ServerAdmins -GroupCategory Security -GroupScope Global -DisplayName "ServerAdmins" -Path "OU=Groups,$rootPath" -ManagedBy (Get-ADUser AzureAdmin) -Credential $credential
+New-ADGroup -Name "ITSupport" -SamAccountName ITSupport -GroupCategory Security -GroupScope Global -DisplayName "ITSupport" -Path "OU=Groups,$rootPath" -ManagedBy (Get-ADUser AzureAdmin) -Credential $credential
 Start-Sleep -Seconds 5
 
 $searchBase = "OU=Employees,$rootPath"
@@ -138,7 +138,7 @@ ForEach ($user in $(Get-ADGroup "Domain Admins" -Credential $credential -Propert
     $acl.AddAccessRule($accessrule)
     Set-Acl -AclObject $acl -Path $path
 }
-$path = "$($adDrive.Name):\$(Get-ADUser Administrator -Credential $credential | select -expand DistinguishedName)"
+$path = "$($adDrive.Name):\$(Get-ADUser AzureAdmin -Credential $credential | select -expand DistinguishedName)"
 $acl = Get-Acl $path
 $accessrule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($(Get-ADGroup ITSupport).sid, "ExtendedRight", "Allow")
 $acl.AddAccessRule($accessrule)
