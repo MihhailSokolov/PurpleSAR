@@ -111,6 +111,7 @@ QUERY
   techniques = ["T1105"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "real_time_monitoring_defender" {
@@ -128,6 +129,7 @@ QUERY
   techniques = ["T1562"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "rclone_process_execution" {
@@ -145,6 +147,7 @@ QUERY
   techniques = ["T1567"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "download_via_certutil" {
@@ -176,6 +179,7 @@ QUERY
   techniques = ["T1027"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "domain_admin_pw_reset" {
@@ -199,6 +203,7 @@ QUERY
   techniques = ["T1110"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "ad_user_enumeration" {
@@ -239,6 +244,7 @@ QUERY
   techniques = ["T1087"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "credential_dumping_werfault" {
@@ -267,6 +273,7 @@ QUERY
   techniques = ["T1003"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_lsass_access" {
@@ -300,6 +307,7 @@ QUERY
   techniques = ["T1003"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "ad_privileged_user_group_recon" {
@@ -342,6 +350,7 @@ QUERY
   techniques = ["T1087"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "password_dumping_activity_lsass" {
@@ -359,6 +368,7 @@ QUERY
   techniques = ["T1003"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_keywords" {
@@ -401,6 +411,7 @@ QUERY
   techniques = ["T1003"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "generic_hacktool_process_access" {
@@ -442,6 +453,7 @@ QUERY
   techniques = ["T1003"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "mimikatz_kirbi_file_creation" {
@@ -457,6 +469,7 @@ QUERY
   tactics = ["CredentialAccess"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "tamper_protection_defender" {
@@ -474,6 +487,7 @@ QUERY
   techniques = ["T1562"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "bloodhound_collection_files" {
@@ -495,6 +509,7 @@ QUERY
   techniques = ["T1087", "T1482", "T1069", "T1059"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "net_exe_group_account_recon" {
@@ -544,6 +559,7 @@ QUERY
   techniques = ["T1087"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "shadow_copy_deletion" {
@@ -583,6 +599,7 @@ QUERY
   tactics = ["DefenseEvasion", "Impact"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "bloodhound_sharphound_execution" {
@@ -635,6 +652,7 @@ QUERY
   techniques = ["T1087", "T1482", "T1069"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
 
 resource "azurerm_sentinel_alert_rule_scheduled" "file_sharing_download_certutil" {
@@ -667,4 +685,5 @@ QUERY
   techniques = ["T1027"]
   query_frequency = local.queryFrequency
   query_period = local.queryPeriod
+  depends_on = [ azurerm_sentinel_log_analytics_workspace_onboarding.sentinel ]
 }
