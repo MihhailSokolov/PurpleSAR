@@ -72,7 +72,7 @@ def change_instance_state(key_name, ar_name, new_state, log):
     elif new_state == 'running':
         for instance in instances:
             if instance['vm_obj'].instance_view.statuses[1].display_status == "VM stopped":
-                async_vm_start = compute_client.virtual_machines.begin_start("ar-rg-" + key_name + '-' + ar_name, instance['vm_obj'].name)
+                async_vm_start = compute_client.virtual_machines.begin_deallocate("ar-rg-" + key_name + '-' + ar_name, instance['vm_obj'].name)
                 log.info('Successfully started instance ' + instance['vm_obj'].name + ' .')
 
 
