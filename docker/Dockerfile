@@ -12,7 +12,7 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 RUN apt-add-repository "deb https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN apt update && apt install packer
 
-RUN git clone https://github.com/MihhailSokolov/PurpleSAR.git
+RUN git clone https://github.com/hexaplex-security/PurpleSAR.git
 RUN echo 'alias python=python3' >> ~/.bashrc
 
 WORKDIR /PurpleSAR
