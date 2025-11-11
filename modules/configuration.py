@@ -196,6 +196,9 @@ starting configuration for AT-ST mech walker
     configuration = dict()
     configuration["general"] = dict()
 
+    available_rule_files = os.listdir('/PurpleSAR/detection_rules/sentinel')
+    available_rule_files.insert(0, 'None')
+
     questions = [
         {
             # get provider
@@ -220,6 +223,15 @@ starting configuration for AT-ST mech walker
             "choices": ["splunk", "sentinel"],
             "default": "splunk",
             "when": lambda answers: answers["provider"] == "azure",
+        },
+        {
+            # Choose detection rules to be imported after deployment
+            "type": "select",
+            "message": "select file with detection rules to be imported to SIEM",
+            "name": "detection_rules_file",
+            "choices": available_rule_files,
+            "default": "None",
+            "when": lambda answers: (answers["provider"] == "azure" and answers["siem"] == "sentinel"),
         },
         {
             # get range password
@@ -252,6 +264,9 @@ starting configuration for AT-ST mech walker
 
     if "siem" in answers:
         configuration["azure"]["siem"] = answers["siem"]
+
+    if "detection_rules_file" in answers and answers["detection_rules_file"] is not None:
+        configuration["azure"]["detection_rules_file"] = answers["detection_rules_file"]
 
     print("> configuring attack_range settings")
 

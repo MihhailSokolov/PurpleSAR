@@ -1,10 +1,13 @@
 import sys
 import os
+import json
+import uuid
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.compute import ComputeManagementClient
 from azure.identity import AzureCliCredential
 from azure.mgmt.network import NetworkManagementClient
-
+from azure.mgmt.securityinsight import SecurityInsights
+from azure.mgmt.securityinsight.models import ScheduledAlertRule
 
 
 def get_all_instances(key_name, ar_name):
@@ -101,4 +104,44 @@ def check_image_available(ar_image, region):
     except:
         return False
 
+def deploy_analytics_rules(analytics_rule_file, siem, key_name, ar_name, logger):
+    credential = AzureCliCredential()
+    subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"]
+    security_insights = SecurityInsights(credential, subscription_id)
+    try:
+        with open('/PurpleSAR/detection_rules/{}/{}'.format(siem, analytics_rule_file)) as json_file:
+            rules_json = json.load(json_file)
+    except (FileNotFoundError, FileExistsError) as e:
+        logger.error("Detection rule file {} was not found.\n".format(analytics_rule_file))
+        return
+    analytics_rules = rules_json['resources']
+    # Field mapping SDK to JSON where needed
+    field_mapping = {
+        'display_name': 'displayName',
+        'query_frequency': 'queryFrequency',
+        'query_period': 'queryPeriod',
+        'trigger_operator': 'triggerOperator',
+        'trigger_threshold': 'triggerThreshold',
+        'event_grouping_settings': 'eventGroupingSettings',
+        'suppression_duration': 'suppressionDuration',
+        'suppression_enabled': 'suppressionEnabled',
+        'custom_details': 'customDetails',
+        'entity_mappings': 'entityMappings',
+        'alert_details_override': 'alertDetailsOverride',
+        'alert_rule_template_name': 'alertRuleTemplateName',
+        'template_version': 'templateVersion'
+    }
+    for analytics_rule in analytics_rules:
+        new_rule = ScheduledAlertRule()
+        for field in dir(new_rule):
+            # Set fields with the same name in SDK & JSON
+            if field in analytics_rule['properties']:
+                setattr(new_rule, field, analytics_rule['properties'][field.replace('_', '')])
+        
+            # Set fields with differing names in SDK & JSON using field_mapping
+            if field in field_mapping:
+                setattr(new_rule, field, analytics_rule['properties'][field_mapping[field]])
 
+        # Write analytics rule to Sentinel
+        security_insights.alert_rules.create_or_update('ar-rg-' + key_name + '-' + ar_name, 'ar-sentinel-' + key_name + '-' + ar_name, uuid.uuid4(), new_rule)
+        logger.info("Successfully created rule '{}' in Sentinel.\n".format(analytics_rule['properties']['displayName']))
