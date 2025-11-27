@@ -331,6 +331,15 @@ class AzureController(AttackRangeController):
             extravars=ansible_vars,
         )
 
+    def deploy_analytics_rules(self) -> None:
+        azure_service.deploy_analytics_rules(
+            self.config["azure"]["detection_rules_file"],
+            self.config["azure"]["siem"],
+            self.config["general"]["key_name"],
+            self.config["general"]["attack_range_name"],
+            self.logger,
+        )
+
     def create_remote_backend(self, backend_name) -> None:
         self.logger.error("Command not supported with azure provider.")
         pass

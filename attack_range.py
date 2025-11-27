@@ -120,6 +120,10 @@ def init_remote_backend(args):
     controller = init(args)
     controller.init_remote_backend(args.backend_name)
 
+def deploy_analytics_rules(args):
+    controller = init(args)
+    controller.deploy_analytics_rules()
+
 def main(args):
     """
     main function parses the arguments passed to the script and calls the respctive method.
@@ -145,6 +149,7 @@ def main(args):
     show_parser = actions_parser.add_parser("show", help="list machines")
     dump_parser = actions_parser.add_parser("dump", help="dump locally logs from attack range instances")
     replay_parser = actions_parser.add_parser("replay", help="replay dumps into the splunk server")
+    deploy_analytics_rules_parser = actions_parser.add_parser("deploy_analytics_rules", help="deploys chosen analytics rules to SIEM")
     create_remote_backend_parser = actions_parser.add_parser("create_remote_backend", help="Create a Remote Backend")
     delete_remote_backend_parser = actions_parser.add_parser("delete_remote_backend", help="Delete a Remote Backend")
     init_remote_backend_parser = actions_parser.add_parser("init_remote_backend", help="Init a Remote Backend")
@@ -225,6 +230,9 @@ def main(args):
     init_remote_backend_parser.add_argument("-bn", "--backend_name", required=True,
                                help="name of the remote backend")
     init_remote_backend_parser.set_defaults(func=init_remote_backend)
+
+    # Analytics rule parser
+    deploy_analytics_rules_parser.set_defaults(func=deploy_analytics_rules)
 
     # # parse them
     args = parser.parse_args()
