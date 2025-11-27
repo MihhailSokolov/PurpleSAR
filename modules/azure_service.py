@@ -19,12 +19,11 @@ def get_all_instances(key_name, ar_name):
 
     for vm in compute_client.virtual_machines.list("ar-rg-" + key_name + '-' + ar_name):
         vm_extended = compute_client.virtual_machines.get("ar-rg-" + key_name + '-' + ar_name, vm.name, expand='instanceView')
-        if vm_extended.instance_view.statuses[1].display_status not in ["VM deallocating", "VM deallocated"]:
-            vm_obj = {}
-            if vm_extended.instance_view.statuses[1].display_status == "VM running":
-                vm_obj['public_ip'] = get_public_ip(vm_extended)
-            vm_obj['vm_obj'] = vm_extended
-            instances.append(vm_obj)
+        vm_obj = {}
+        if vm_extended.instance_view.statuses[1].display_status == "VM running":
+            vm_obj['public_ip'] = get_public_ip(vm_extended)
+        vm_obj['vm_obj'] = vm_extended
+        instances.append(vm_obj)
 
     return instances
 
@@ -74,7 +73,8 @@ def change_instance_state(key_name, ar_name, new_state, log):
 
     elif new_state == 'running':
         for instance in instances:
-            if instance['vm_obj'].instance_view.statuses[1].display_status == "VM stopped":
+            log.info(instance['vm_obj'].instance_view.statuses[1].display_status)
+            if instance['vm_obj'].instance_view.statuses[1].display_status == "VM stopped" or instance['vm_obj'].instance_view.statuses[1].display_status == "VM deallocated":
                 async_vm_start = compute_client.virtual_machines.begin_start("ar-rg-" + key_name + '-' + ar_name, instance['vm_obj'].name)
                 log.info('Successfully started instance ' + instance['vm_obj'].name + ' .')
 
