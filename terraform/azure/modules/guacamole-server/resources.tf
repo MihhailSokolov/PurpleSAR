@@ -16,7 +16,7 @@ resource "azurerm_network_interface" "guacamole-nic" {
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.12"
-    public_ip_address_id          = azurerm_public_ip.guacamole-publicip[0].id
+    public_ip_address_id          = azurerm_public_ip.guacamole-publicip.id
   }
 }
 
@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine" "guacamole" {
   name = "ar-guacamole-${var.general.key_name}-${var.general.attack_range_name}"
   location = var.azure.location
   resource_group_name  = var.rg_name
-  network_interface_ids = [azurerm_network_interface.guacamole-nic[0].id]
+  network_interface_ids = [azurerm_network_interface.guacamole-nic.id]
   vm_size               = "Standard_D4_v4"
 #  depends_on             = [var.phantom_server_instance]
   delete_os_disk_on_termination = true
@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine" "guacamole" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      host        = azurerm_public_ip.guacamole-publicip[0].ip_address
+      host        = azurerm_public_ip.guacamole-publicip.ip_address
       private_key = file(var.azure.private_key_path)
     }
   }
@@ -87,7 +87,7 @@ resource "azurerm_virtual_machine" "guacamole" {
   provisioner "local-exec" {
     working_dir = "../ansible"
     command = <<-EOT
-      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key '${var.azure.private_key_path}' -i '${azurerm_public_ip.guacamole-publicip[0].ip_address},' guacamole_server.yml -e "@vars/guacamole_vars.json"
+      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key '${var.azure.private_key_path}' -i '${azurerm_public_ip.guacamole-publicip.ip_address},' guacamole_server.yml -e "@vars/guacamole_vars.json"
     EOT
   }
 

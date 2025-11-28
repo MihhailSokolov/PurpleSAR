@@ -29,8 +29,6 @@ variable "splunk_server" {
     }
 }
 
-variable "guacamole_server" { }
-
 variable "phantom_server" {
     type = map(string)
 
