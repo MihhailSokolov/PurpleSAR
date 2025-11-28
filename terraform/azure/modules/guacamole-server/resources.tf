@@ -1,6 +1,5 @@
 
 resource "azurerm_public_ip" "guacamole-publicip" {
-  count               = var.guacamole_server.byo_guacamole == "0" ? 1 : 0
   name                = "ar-guacamole-ip-${var.general.key_name}-${var.general.attack_range_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name
@@ -8,7 +7,6 @@ resource "azurerm_public_ip" "guacamole-publicip" {
 }
 
 resource "azurerm_network_interface" "guacamole-nic" {
-  count               = var.guacamole_server.byo_guacamole == "0" ? 1 : 0
   name                = "ar-guacamole-nic-${var.general.key_name}-${var.general.attack_range_name}"
   location            = var.azure.location
   resource_group_name = var.rg_name
@@ -23,7 +21,6 @@ resource "azurerm_network_interface" "guacamole-nic" {
 }
 
 resource "azurerm_virtual_machine" "guacamole" {
-  count = var.guacamole_server.byo_guacamole == "0" ? 1 : 0
   name = "ar-guacamole-${var.general.key_name}-${var.general.attack_range_name}"
   location = var.azure.location
   resource_group_name  = var.rg_name
@@ -79,12 +76,7 @@ resource "azurerm_virtual_machine" "guacamole" {
         "ansible_python_interpreter": "/usr/bin/python3",
         "general": ${jsonencode(var.general)},
         "azure": ${jsonencode(var.azure)},
-        "guacamole_server": ${jsonencode(var.guacamole_server)},
-        "phantom_server": ${jsonencode(var.phantom_server)},
         "kali_server": ${jsonencode(var.kali_server)},
-        "simulation": ${jsonencode(var.simulation)},
-        "zeek_server": ${jsonencode(var.zeek_server)},
-        "snort_server": ${jsonencode(var.snort_server)},
         "windows_servers": ${jsonencode(var.windows_servers)},
         "linux_servers": ${jsonencode(var.linux_servers)},
       }
