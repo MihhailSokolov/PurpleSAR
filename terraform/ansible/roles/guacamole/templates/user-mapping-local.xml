@@ -10,17 +10,7 @@
             <param name="port">22</param>
             <param name="username">vagrant</param>
             <param name="password">vagrant</param>
-        </connection>        
-
-        {% if phantom_server.phantom_server == '1' %}
-        <connection name="ar-phantom">
-            <protocol>ssh</protocol>
-            <param name="hostname">192.168.56.13</param>
-            <param name="port">22</param>
-            <param name="username">vagrant</param>
-            <param name="password">vagrant</param>
-        </connection>    
-        {% endif %}
+        </connection>
 
         {% if windows_servers is string %}
             {% set windows_servers_list = windows_servers|from_json %}

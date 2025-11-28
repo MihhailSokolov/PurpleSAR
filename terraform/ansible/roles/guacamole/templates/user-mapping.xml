@@ -16,20 +16,6 @@
             {% endif %}
         </connection>
 
-        {% if phantom_server.phantom_server == '1' %}
-        <connection name="ar-phantom-{{ general.key_name }}-{{ general.attack_range_name }}">
-            <protocol>ssh</protocol>
-            <param name="hostname">10.0.1.13</param>
-            <param name="port">22</param>
-            <param name="username">centos</param>
-            {% if general.cloud_provider == 'aws' %}
-            <param name="private-key">{{ lookup('file', aws.private_key_path) }}</param>
-            {% elif general.cloud_provider == 'azure' %}
-            <param name="private-key">{{ lookup('file', azure.private_key_path) }}</param>
-            {% endif %}
-        </connection>
-        {% endif %}
-
         {% if windows_servers is string %}
             {% set windows_servers_list = windows_servers|from_json %}
         {% else %}
@@ -89,34 +75,6 @@
             <param name="port">5901</param>
             <param name="username">kali</param>
             <param name="password">{{ general.attack_range_password }}</param>
-        </connection>
-        {% endif %}
-
-        {% if zeek_server.zeek_server == '1' %}
-        <connection name="ar-zeek-{{ general.key_name }}-{{ general.attack_range_name }}">
-            <protocol>ssh</protocol>
-            <param name="hostname">10.0.1.50</param>
-            <param name="port">22</param>
-            <param name="username">ubuntu</param>
-            {% if general.cloud_provider == 'aws' %}
-            <param name="private-key">{{ lookup('file', aws.private_key_path) }}</param>
-            {% elif general.cloud_provider == 'azure' %}
-            <param name="private-key">{{ lookup('file', azure.private_key_path) }}</param>
-            {% endif %}
-        </connection>
-        {% endif %}
-
-        {% if snort_server.snort_server == '1' %}
-        <connection name="ar-snort-{{ general.key_name }}-{{ general.attack_range_name }}">
-            <protocol>ssh</protocol>
-            <param name="hostname">10.0.1.60</param>
-            <param name="port">22</param>
-            <param name="username">ubuntu</param>
-            {% if general.cloud_provider == 'aws' %}
-            <param name="private-key">{{ lookup('file', aws.private_key_path) }}</param>
-            {% elif general.cloud_provider == 'azure' %}
-            <param name="private-key">{{ lookup('file', azure.private_key_path) }}</param>
-            {% endif %}
         </connection>
         {% endif %}
 
