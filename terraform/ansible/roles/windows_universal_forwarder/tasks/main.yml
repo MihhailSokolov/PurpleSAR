@@ -1,14 +1,22 @@
 
 - include: install_splunk_uf.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 #- include: create_deploymentclient.yml
 - include: configure_outputs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 - include: collect_powershell_logs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 - include: collect_attack_simulation_logs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 - include: collect_sysmon_logs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 - include: collect_windows_event_logs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 - include: collect_aurora_agent_logs.yml
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 
 - name: Restart splunk
+  when (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
   win_command: splunk.exe restart
   args:
     chdir: C:\Program Files\SplunkUniversalForwarder\bin\
