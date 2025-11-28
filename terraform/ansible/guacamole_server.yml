@@ -1,0 +1,11 @@
+- hosts: all
+  gather_facts: False
+  become: true
+  vars:  
+    hostname: guacamole-server
+    cloudtrail: "0"
+    azure_logging: "0"
+    kali_server: "0"
+  roles:
+    - linux_common
+    - guacamole

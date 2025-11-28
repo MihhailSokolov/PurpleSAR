@@ -21,6 +21,23 @@ module "splunk-server" {
   snort_server = var.snort_server
 }
 
+module "guacamole-server" {
+  source = "./modules/guacamole-server"
+  count = (var.general.cloud_provider == "azure" && var.azure.siem == "sentinel") ? 1 : 0
+  rg_name = module.networkModule.rg_name
+  subnet_id = module.networkModule.subnet_id
+  azure = var.azure
+  guacamole_server = var.guacamole_server
+  phantom_server = var.phantom_server
+  general = var.general
+  simulation = var.simulation
+  windows_servers = var.windows_servers
+  linux_servers = var.linux_servers
+  zeek_server = var.zeek_server
+  kali_server = var.kali_server
+  snort_server = var.snort_server
+}
+
 module "phantom-server" {
   source = "./modules/phantom-server"
   rg_name = module.networkModule.rg_name
