@@ -6,6 +6,7 @@ module "networkModule" {
 
 module "splunk-server" {
   source = "./modules/splunk-server"
+  count = ((var.general.cloud_provider == "aws") || (var.general.cloud_prvider == "azure" && var.azure.siem == "splunk")) ? 1 : 0
   rg_name = module.networkModule.rg_name
   subnet_id = module.networkModule.subnet_id
   azure = var.azure
