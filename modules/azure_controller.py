@@ -194,6 +194,14 @@ class AzureController(AttackRangeController):
                             + "\n\tusername: admin \n\tpassword: "
                             + self.config["general"]["attack_range_password"]
                         )
+                elif instance_name.startswith("ar-guacamole"):
+                    messages.append(
+                        "\nAccess Guacamole via:\n\tWeb > http://"
+                        + instance["public_ip"]
+                        + ":8080/guacamole"
+                        + "\n\tusername: admin \n\tpassword: "
+                        + self.config["general"]["attack_range_password"]
+                    )
                 elif instance_name.startswith("ar-phantom"):
                     messages.append(
                         "\nAccess Phantom via:\n\tWeb > https://"
