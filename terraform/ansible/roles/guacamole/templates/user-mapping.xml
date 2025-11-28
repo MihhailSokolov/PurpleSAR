@@ -4,7 +4,7 @@
             password="{{general.attack_range_password|hash('md5')}}"
             encoding="md5">
 
-        <connection name="SPLUNK-SSH">
+        <connection name="GUACAMOLE-SSH">
             <protocol>ssh</protocol>
             <param name="hostname">localhost</param>
             <param name="port">22</param>
