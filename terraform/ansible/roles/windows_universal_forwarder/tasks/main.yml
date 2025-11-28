@@ -16,7 +16,7 @@
   when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
 
 - name: Restart splunk
-  when (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
+  when: (windows_servers.general.cloud_provider == "aws" or (windows_servers.general.cloud_provider == "azure" and windows_servers.azure.siem == "splunk"))
   win_command: splunk.exe restart
   args:
     chdir: C:\Program Files\SplunkUniversalForwarder\bin\
