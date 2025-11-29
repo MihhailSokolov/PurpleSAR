@@ -10,7 +10,7 @@ docker run -it mihhailsokolov/purplesar-azure
 
 1. Run `az login`
 2. Do the device code authentication workflow
-3. Set region to `westeurope`
+3. Choose relevant subscription
 
 ## Configure attack range deployment
 
