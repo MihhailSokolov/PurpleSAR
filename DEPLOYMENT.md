@@ -3,33 +3,14 @@
 ## Run Docker container
 
 ```bash
-docker run -it mihhailsokolov/purplesar
+docker run -it mihhailsokolov/purplesar-azure
 ```
 
-## Copy Splunk Enterprise Security into the container (in a separate window)
+## Configure Azure credentials
 
-1. Get container ID
-
-```bash
-docker ps 
-```
-
-2. Copy ES SPL file into `/PurpleSAR/apps/` inside the container
-
-```bash
-docker cp .\splunk-enterprise-security_732.spl <CONTAINER_ID>:/PurpleSAR/apps/
-```
-
-## Configure AWS credentials
-
-1. Set the  API Key ID
-2. Set the Secret Key
-3. Set region to `us-east-1`
-4. Keep output format empty
-
-```bash
-aws configure
-```
+1. Run `az login`
+2. Do the device code authentication workflow
+3. Set region to `westeurope`
 
 ## Configure attack range deployment
 
