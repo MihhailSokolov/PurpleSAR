@@ -89,18 +89,17 @@ class AzureController(AttackRangeController):
         return_code, stdout, stderr = self.terraform.apply(
             capture_output="yes", skip_plan=True, no_color=IsNotFlagged
         )
-        if not return_code:
-            self.logger.info("attack_range has been built using terraform successfully\n")
-            if self.config["general"]["cloud_provider"] == "azure" and self.config["azure"]["siem"] == "sentinel":
-                if self.config["azure"]["detection_rules_file"] is not None:
-                    self.logger.info("[action] > deploy detection rules from file {}\n".format(self.config["azure"]["detection_rules_file"]))
-                    azure_service.deploy_analytics_rules(
-                        self.config["azure"]["detection_rules_file"],
-                        self.config["azure"]["siem"],
-                        self.config["general"]["key_name"],
-                        self.config["general"]["attack_range_name"],
-                        self.logger
-                    )
+        self.logger.info("attack_range has been built using terraform successfully\n")
+        if self.config["general"]["cloud_provider"] == "azure" and self.config["azure"]["siem"] == "sentinel":
+            if self.config["azure"]["detection_rules_file"] is not None:
+                self.logger.info("[action] > deploy detection rules from file {}\n".format(self.config["azure"]["detection_rules_file"]))
+                azure_service.deploy_analytics_rules(
+                    self.config["azure"]["detection_rules_file"],
+                    self.config["azure"]["siem"],
+                    self.config["general"]["key_name"],
+                    self.config["general"]["attack_range_name"],
+                    self.logger
+                )
 
         self.show()
 
