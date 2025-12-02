@@ -61,5 +61,7 @@ until [ $current_member -ge $((member_number + 1)) ]; do
     # Assign RBAC access to specified resource group
     echo "Assigning RBAC access (Reader) to specified resource group for user ${upn}"
     az role assignment create --assignee "${upn}" --role "Reader" --scope "/subscriptions/${subscription_id}/resourcegroups/${resource_group}"
+    echo "Assigning RBAC access (Log Analytics Reader) to specified resource group for user ${upn}"
+    az role assignment create --assignee "${upn}" --role "Log Analytics Data Reader" --scope "/subscriptions/${subscription_id}/resourcegroups/${resource_group}"
     ((current_member++))
 done
